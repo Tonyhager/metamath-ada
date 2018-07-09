@@ -1,4 +1,5 @@
--- Copyright (C) 2017  Tony Häger,  tony7@tele2.se
+-- Copyright (C) 2017  Tony HÃ¤ger,  tony7@tele2.se
+-- 2018-07-07 Increased data structure sizes so the last version of set.mm (24-Jun-2018) can be handled.
 
 with Use_Pack; use Use_Pack;
 with Storage.Sets;
@@ -16,10 +17,10 @@ procedure Metamath_Check is
    -- If the size of a data structure is too small the program will just crash.
 
    Constants : Hashed_Set(1100, "="'access , Hash'access);
-   Variables : Hashed_Set(430, "="'access , Hash'access);
-   Variable_Type : array(Integer_16 range 1..430) of Natural; -- Nr of the variables' last $f statement .
+   Variables : Hashed_Set(400, "="'access , Hash'access);
+   Variable_Type : array(1..Integer_16(Variables.Size)) of Natural; -- Nr of the variables' last $f statement .
 
-   Data : array (1..1350000) of Integer_16; -- Store of all expressions, negative number are variables,
+   Data : array (1..1450000) of Integer_16; -- Store of all expressions, negative number are variables,
    --                                          positive number are constants.
    Data_Last : Natural :=0; -- Last used position in Data
 
@@ -27,7 +28,7 @@ procedure Metamath_Check is
       First, Last : Natural := 0; -- Indices in Data for the expression.
    end record;
 
-   Labels : Hashed_Set(70000, "="'access , Hash'access);
+   Labels : Hashed_Set(75000, "="'access , Hash'access);
    Expr : array (1..Labels.Size) of Expression;
    Ekind : array (Expr'range) of Character; -- $f, $e, $a or $p
 
@@ -35,11 +36,11 @@ procedure Metamath_Check is
    H_Last : Natural := 0;
    First_Hyp, Last_Hyp : array (Expr'range) of Natural; -- Indices in Hypotheses for each assertion.
 
-   Used_Variables : array(1..160000) of Integer_16; -- Lists of mandatory variables in each assertion.
+   Used_Variables : array(1..170000) of Integer_16; -- Lists of mandatory variables in each assertion.
    V_Last : Natural := 0;
    First_Var, Last_Var : array (Expr'range) of Natural; -- Indices in Used_Variables for each assertion.
 
-   D1, D2 : array(1..170000) of Integer_16; -- Lists of disjoint variables for each assertion.
+   D1, D2 : array(1..180000) of Integer_16; -- Lists of disjoint variables for each assertion.
    D_Last : Natural := 0;
    First_Dvar, Last_Dvar : array (Expr'range) of Natural; -- Indices in D1, D2 for each assertion.
 
@@ -420,10 +421,10 @@ procedure Metamath_Check is
          end if;
       end;
 
-      Reffed_Th : array (1..350) of Natural;
+      Reffed_Th : array (1..550) of Natural;
       Last_Rt : Natural :=0;
 
-      Z_Th : array (1..550) of Expression; -- reused proof steps
+      Z_Th : array (1..650) of Expression; -- reused proof steps
       Last_Z : Natural :=0;
 
       Initial_Data_Last : constant Natural := Data_Last;
